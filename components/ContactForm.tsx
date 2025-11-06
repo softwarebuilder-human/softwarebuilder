@@ -34,7 +34,7 @@ export default function ContactForm() {
       });
 
       if (res.ok) {
-        setToast({ type: "success", message: "✅ Message sent successfully!" });
+        setToast({ type: "success", message: "Request Sent ✔️, We will Contact You soon ! " });
         setFormData({
           name: "",
           email: "",
@@ -59,22 +59,33 @@ export default function ContactForm() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center p-6 relative ">
       {/* Toast Notification */}
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className={`z-50 fixed top-0 left-1/2 transform -translate-x-1/2 px-5 py-3 rounded-xl shadow-lg text-sm font-medium ${
-              toast.type === "success"
-                ? "bg-gradient-to-r from-green-600/30 to-emerald-600/30 text-green-400 border border-green-600"
-                : "bg-gradient-to-r from-red-600/30 to-rose-600/30 text-red-400 border border-red-600"
-            }`}
-          >
-            {toast.message}
-          </motion.div>
-        )}
-      </AnimatePresence>
+<AnimatePresence>
+  {toast && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="z-50 fixed inset-0 flex items-center justify-center backdrop-blur-sm"
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className={`px-6 py-4 rounded-2xl shadow-2xl text-lg font-semibold border
+          ${
+            toast.type === "success"
+              ? "bg-gradient-to-r from-green-600/70 to-emerald-600/60 text-black border-green-500"
+              : "bg-gradient-to-r from-red-600/70 to-rose-600/70 text-black border-red-500"
+          }`}
+      >
+        {toast.message}
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
