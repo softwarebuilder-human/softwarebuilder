@@ -12,7 +12,7 @@ export default function AnimatedParagraph({ textBlocks }: AnimatedParagraphProps
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 1.5, // delay between paragraphs
+        staggerChildren: 1.5,
       },
     },
   };
@@ -23,7 +23,7 @@ export default function AnimatedParagraph({ textBlocks }: AnimatedParagraphProps
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.8, ease: ["easeOut"] }, // ✅ fixed type error here
+      transition: { duration: 0.8, ease: "easeOut" },
     },
   });
 
@@ -32,7 +32,7 @@ export default function AnimatedParagraph({ textBlocks }: AnimatedParagraphProps
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: false, amount: 0.3 }}   // ⭐ replay animation every time
       className="text-white text-lg md:text-xl leading-relaxed max-w-2xl mx-auto sm:p-2 text-justify space-y-8"
     >
       {textBlocks.map((block, index) => {
@@ -41,6 +41,7 @@ export default function AnimatedParagraph({ textBlocks }: AnimatedParagraphProps
           <motion.p
             key={index}
             variants={paragraphVariants(fromLeft)}
+            viewport={{ once: false }}          // ⭐ paragraphs re-animate too
             className="text-gray-200"
           >
             {block}
