@@ -1,49 +1,37 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import localFont from 'next/font/local';
-import dynamic from 'next/dynamic';
-import ContactForm from '@/components/ContactForm';
-import ScrollToContactButton from '@/components/ScrollToContactButton';
+// app/page.tsx
 import AboutSection from '@/components/AboutSection';
 import Process from '@/components/Process';
-
-// Prevent SSR issues with Canvas
-const StarrySky = dynamic(() => import('@/components/StarrySky'), {
-  ssr: false,
-});
-
-const batman= localFont({ src: './fonts/batman.ttf'});
+import ContactForm from '@/components/ContactForm';
+import TechnologiesMention from '@/components/TechnologiesMention';
 
 export default function LandingPage() {
   return (
     <>
-    <section id='top' className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white pt-16">
-      
-      <div className="container mx-auto px-4 py-2">
-        <div className="text-center">
-          <h1
-        className={`
-          ${batman.className}
-          text-5xl md:text-7xl font-bold mb-4
-          bg-clip-text text-transparent
-          bg-gradient-to-r from-purple-600 to-green-600
-        `}
-      >
-        Software Builder
-      </h1>
-      <p className="text-xl md:text-2xl text-amber-200 mb-8 animate-pulse">
-   Let’s Build Your App !
-      </p>
+      {/* Hero */}
+      <section className="min-h-screen bg-white flex items-center justify-center px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-7xl font-black text-gray-900 leading-tight">
+            We Build Software<br />
+            <span className="text-purple-600">That Drives Growth</span>
+          </h1>
+          <p className="mt-8 text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
+            Custom web & mobile applications for startups and enterprises that need to move fast and scale confidently.
+          </p>
+          <div className="mt-12">
+            <a
+              href="#contact-form"
+              className="inline-block px-10 py-5 bg-purple-600 text-white font-semibold text-lg rounded-xl hover:bg-purple-700 transition-shadow hover:shadow-lg"
+            >
+              Discuss Your Project →
+            </a>
+          </div>
+        </div>
+      </section>
 
-           <AboutSection batman={batman} />
-<ScrollToContactButton />
-
-</div></div>
-      
-    </section>
-    <Process />
-    <ContactForm />
+      <AboutSection />
+      <Process />
+      <TechnologiesMention />
+      <ContactForm />
     </>
   );
 }

@@ -1,3 +1,4 @@
+// components/ContactForm.tsx
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,9 +23,7 @@ export default function ContactForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setToast(null);
@@ -37,143 +36,152 @@ export default function ContactForm() {
       });
 
       if (res.ok) {
-        setToast({ type: "success", message: "Request Sent ✔️, We will Contact You soon !" });
-        setFormData({ name: "", email: "", whatsapp: "", projectType: "", description: "", budget: "", timeline: "" });
+        setToast({ type: "success", message: "Message sent successfully. We'll be in touch soon!" });
+        setFormData({
+          name: "", email: "", whatsapp: "", projectType: "",
+          description: "", budget: "", timeline: "",
+        });
       } else {
-        setToast({ type: "error", message: "❌ Failed to send. Try again later." });
+        setToast({ type: "error", message: "Something went wrong. Please try again." });
       }
     } catch (err) {
-      setToast({ type: "error", message: "⚠️ Something went wrong." });
+      setToast({ type: "error", message: "Failed to send. Check your connection." });
     }
 
     setLoading(false);
-    setTimeout(() => setToast(null), 4000);
+    setTimeout(() => setToast(null), 5000);
   };
 
   return (
-    <div id='contact-form' className="min-h-screen bg-black pt-25 flex items-center justify-center p-6 relative text-white">
-      {/* Toast */}
+    <>
+      {/* Full-screen section */}
+      <section id="contact-form" className="pt-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+              Let’s Build Your Next Project
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              Tell us about your goals. We reply within 2 hours.
+            </p>
+          </div>
+
+          {/* Form Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-2xl shadow-xl overflow-hidden"
+          >
+            <div className="p-8 md:p-12">
+              <form onSubmit={handleSubmit} className="space-y-7">
+                <div className="grid md:grid-cols-2 gap-7">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Full name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-purple-600 focus:outline-none transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Business email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-purple-600 focus:outline-none transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-7">
+                  <input
+                    type="tel"
+                    name="whatsapp"
+                    placeholder="WhatsApp (optional)"
+                    value={formData.whatsapp}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-purple-600 focus:outline-none transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  />
+                  <select
+                    name="projectType"
+                    value={formData.projectType}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-purple-600 focus:outline-none transition-all duration-200 text-gray-900"
+                  >
+                    <option value="" disabled>Select project type</option>
+                    <option value="Website">Website</option>
+                    <option value="Web App">Web Application</option>
+                    <option value="Mobile App">Mobile App</option>
+                    <option value="SaaS Platform">SaaS Platform</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-7">
+                  <input
+                    type="text"
+                    name="budget"
+                    placeholder="Budget range (e.g. $50k–$100k)"
+                    value={formData.budget}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-purple-600 focus:outline-none transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  />
+                  <input
+                    type="text"
+                    name="timeline"
+                    placeholder="Expected timeline (e.g. 3 months)"
+                    value={formData.timeline}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-purple-600 focus:outline-none transition-all duration-200 text-gray-900 placeholder-gray-500"
+                  />
+                </div>
+
+                <textarea
+                  name="description"
+                  rows={5}
+                  placeholder="Tell us about your project, goals, and challenges..."
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-purple-600 focus:outline-none transition-all duration-200 text-gray-900 placeholder-gray-500 resize-none"
+                />
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-5 bg-purple-600 text-white font-semibold text-lg rounded-xl hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-600/30 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                >
+                  {loading ? "Sending..." : "Send Message"}
+                </button>
+              </form>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Clean Toast Notification */}
       <AnimatePresence>
         {toast && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="z-50 fixed inset-0 flex items-center justify-center backdrop-blur-sm"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50"
           >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`px-6 py-4 rounded-2xl shadow-2xl text-lg font-semibold border neon-shadow
-                ${(toast as { type: "success" | "error"; message: string }).type === "success" ? "bg-green-500 text-black border-green-400" : "bg-red-500 text-black border-red-400"}`}
+            <div
+              className={`px-8 py-4 rounded-full shadow-2xl font-medium text-white ${
+                toast.type === "success" ? "bg-emerald-600" : "bg-rose-600"
+              }`}
             >
-              {(toast as { type: "success" | "error"; message: string }).message}
-            </motion.div>
+              {toast.message}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
-        className="max-w-xl w-full bg-black/60 border border-purple-500/40 rounded-2xl p-6 shadow-purple-xl backdrop-blur-md"
-      >
-        <h2 className="text-3xl font-bold mb-6 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]">
-          We Will Contact You After This 👇🏻
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4 text-white">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-lg bg-black/40 border border-purple-500/40 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 neon-glow"
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email Address"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-lg bg-black/40 border border-purple-500/40 placeholder-gray-400 focus:ring-purple-500 neon-glow"
-          />
-
-          <input
-            type="tel"
-            name="whatsapp"
-            placeholder="WhatsApp Number (Optional)"
-            value={formData.whatsapp}
-            onChange={handleChange}
-            className="w-full p-3 rounded-lg bg-black/40 border border-purple-500/40 placeholder-gray-400 focus:ring-purple-500 neon-glow"
-          />
-
-          <div>
-            <label className="block text-lg font-medium text-purple-300 mb-1">Type of App</label>
-            <select
-              name="projectType"
-              value={formData.projectType}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-black/40 border border-purple-500/40 text-white focus:ring-purple-500 neon-glow"
-            >
-              <option value="" disabled>Select Type</option>
-              <option value="Website">Website</option>
-              <option value="Android App">Android App</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <input
-            type="text"
-            name="budget"
-            placeholder="Estimated Budget (₹10,000)"
-            value={formData.budget}
-            onChange={handleChange}
-            className="w-full p-3 rounded-lg bg-black/40 border border-purple-500/40 placeholder-gray-400 focus:ring-purple-500 neon-glow"
-          />
-
-          <input
-            type="text"
-            name="timeline"
-            placeholder="Expected Time (e.g., 2 weeks)"
-            value={formData.timeline}
-            onChange={handleChange}
-            className="w-full p-3 rounded-lg bg-black/40 border border-purple-500/40 placeholder-gray-400 focus:ring-purple-500 neon-glow"
-          />
-
-          <textarea
-            name="description"
-            rows={4}
-            placeholder="Tell us something about your project..."
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-lg bg-black/40 border border-purple-500/40 placeholder-gray-400 focus:ring-purple-500 neon-glow"
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-3 rounded-lg font-semibold shadow-xl neon-button transition-all text-black
-              ${loading ? "bg-purple-900 cursor-not-allowed" : "bg-purple-500 hover:bg-purple-400"}`}
-          >
-            {loading ? "Sending..." : "Submit"}
-          </button>
-        </form>
-      </motion.div>
-    </div>
+    </>
   );
 }
-
-/* Tailwind custom utilities (add in globals.css if needed)
-.neon-glow { box-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
-.neon-button { box-shadow: 0 0 15px rgba(168, 85, 247, 0.8); }
-.shadow-purple-xl { box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); } */
