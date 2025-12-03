@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
+import FloatingWhatsapp from "@/components/FloatingWhatsapp";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -339,6 +340,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-black text-white relative`}
       >
         <Navbar />
+        <FloatingWhatsapp />
         {children}
       </body>
     </html>

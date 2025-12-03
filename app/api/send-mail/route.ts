@@ -21,7 +21,7 @@ Name: ${data.name}
 Email: ${data.email}
 WhatsApp: ${data.whatsapp}
 Project Type: ${data.projectType}
-Budget: ${data.budget}
+Budget: ${data.currency} ${data.budget}
 Timeline: ${data.timeline}
 
 Description:
